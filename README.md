@@ -5,16 +5,19 @@ Introduction:
 This repo contains code,scripts and documents demonistrates kubernetes cluster installation on GCE not using GKE, follwed by multiple tasks as requered in mStakx kubernetes test (level1). 
 
 
-Prerequisites:
-- Ansible v 2.8
-- Python v 2.7
-- gcloud 
+Enviornment description:
+
+- Localhost CentOS 7.6
+- Ansible v 2.8.1
+- Python v 2.7.5
 - GCP Account
-- kubectl
+- gcloud installed
+- kubectl installed
 
 Before you start:
+
 1- Make sure that gcloud is set to use the Google Cloud Platform project you want
-   gcloud config set project <project-id>
+   $ gcloud config set project <project-id>
 
 2- Make sure you have credentials for GCloud by running gcloud auth login.
 
