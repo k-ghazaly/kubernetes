@@ -1,0 +1,53 @@
+    - name: Create a namespace and a service account for the Ingress controller
+      kubernetes:
+         api_endpoint: "{{ api_endpoint.split('https://')[1] }}"
+         url_username: admin
+         url_password: "{{ admin_password }}"
+         file_reference: kubernetes-ingress/deployments/common/ns-and-sa.yaml
+         state: present
+
+    - name: Create a secret with a TLS certificate and a key for the default server in NGINX
+      kubernetes:
+        api_endpoint: "{{ api_endpoint.split('https://')[1] }}"
+        url_username: admin
+        url_password: "{{ admin_password }}"
+        file_reference: kubernetes-ingress/deployments/common/default-server-secret.yaml
+        state: present
+
+
+    - name: Create a config map for customizing NGINX configuration
+      kubernetes:
+        api_endpoint: "{{ api_endpoint.split('https://')[1] }}"
+        url_username: admin
+        url_password: "{{ admin_password }}"
+        file_reference: kubernetes-ingress/deployments/common/nginx-config.yaml
+        state: present
+
+    - name: Create a secret with a TLS certificate and a key for the default server in NGINX
+      kubernetes:
+        api_endpoint: "{{ api_endpoint.split('https://')[1] }}"
+        url_username: admin
+        url_password: "{{ admin_password }}"
+        file_reference: kubernetes-ingress/deployments/common/default-server-secret.yaml
+        state: present
+    - name: create a cluster role and bind it to the service account
+      command: "kubectl apply -f kubernetes-ingress/deployments/rbac/rbac.yaml"
+
+    - name: Create the NGINX deployment
+      command: "kubectl apply -f kubernetes-ingress/deployments/deployment/nginx-ingress.yaml"
+
+    - name: Create DemonSet
+      command: "kubectl apply -f kubernetes-ingress/deployments/daemon-set/nginx-ingress.yaml"
+
+    - name: Create a service using a manifest for GCP
+      kubernetes:
+        api_endpoint: "{{ api_endpoint.split('https://')[1] }}"
+        url_username: admin
+        url_password: "{{ admin_password }}"
+        file_reference: kubernetes-ingress/deployments/service/loadbalancer.yaml
+        state: present
+    
+    - name: Wait 30 seconds for LB External IP creation
+      pause:
+        minutes: 1
+        

@@ -1,0 +1,51 @@
+    - name: Creating the Redis Master Deployment in "{{ namespace }}" namespace
+      command: "kubectl -n {{ namespace }} apply -f guestbook/redis-master-deployment.yaml"
+
+    - name: Creating the Redis Master Service in "{{ namespace }}" namespace
+      command: "kubectl -n {{ namespace }}  apply -f guestbook/redis-master-service.yaml"
+
+    - name: Creating the Redis Slave Deployment in "{{ namespace }}" namespace
+      command: "kubectl -n {{ namespace }}  apply -f guestbook/redis-slave-deployment.yaml"
+
+    - name: Creating the Redis Slave Service in "{{ namespace }}" namespace
+      command: "kubectl -n {{ namespace }} apply -f guestbook/redis-slave-service.yaml"
+
+    - name: Creating the Guestbook Frontend Deployment in "{{ namespace }}" namespace
+      command: "kubectl -n {{ namespace }} apply -f guestbook/frontend-deployment.yaml"
+
+    - name: Creating the Frontend Service in "{{ namespace }}" namespace
+      command: "kubectl -n {{ namespace }} apply -f guestbook/frontend-service.yaml"
+
+    - name: get Frontend external IP in "{{ namespace }}"
+      command: "kubectl -n {{ namespace }} get svc frontend -o json"
+      register: frontend_json
+
+    - set_fact: 
+        staging_ip: "{{ frontend_json.stdout | from_json | json_query('status.loadBalancer.ingress[].ip[]') | first }}"
+      when: namespace == "staging"
+
+    - set_fact: 
+        production_ip: "{{ frontend_json.stdout | from_json | json_query('status.loadBalancer.ingress[].ip[]') | first }}"
+      when: namespace == "production"
+
+
+## These tasks must be ran by aprivilege user
+#    - name: Add hostnames in hosts file
+#      lineinfile: 
+#        dest: /etc/hosts
+#        line: "{{ staging_ip }}  staging-guestbook.mstakx.io"
+#        state: present
+#      when: namespace == "staging"
+#      become: True
+#
+#    - name: Add hostnames in hosts file
+#      lineinfile: 
+#        dest: /etc/hosts
+#        line: "{{ production_ip }}  staging-guestbook.mstakx.io"
+#        state: present
+#      when: namespace == "production"
+#      become: True
+
+    - name: Create horizontal pod autoscaler in "{{ namespace }}"
+      command: "kubectl -n {{ namespace }} autoscale deployment frontend --cpu-percent=50 --min=1 --max=10"
+      

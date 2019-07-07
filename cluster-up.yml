@@ -1,0 +1,23 @@
+    - name: Download client and starting cluster
+      shell: "curl -sS https://get.k8s.io | bash"
+      register: result
+      ignore_errors: true
+
+    - name: Fail if the script fails with other reason than the kubernetes dir already exists
+      fail:
+        msg: Something went wrong
+      when: 
+        - result.rc == 1 
+        - '"Skipping download step." not in result.stdout_lines'
+
+    - name: Running cluster up
+      shell: "./kubernetes/cluster/kube-up.sh"
+      register: output
+      ignore_errors: true
+
+    - name: Fail if kube-up fails for any reason other than the cluster already exists
+      fail:
+        msg: "Cluster already exists"
+      when:
+        - output.rc == 1 
+        - '"already exists" not in output.stderr'

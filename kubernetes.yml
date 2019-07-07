@@ -1,0 +1,39 @@
+- name: Create Kubernetes cluster using Google Compute Engine
+  hosts: localhost
+  gather_facts: no
+  tasks:
+#    - include: cluster-up.yml
+
+    - name: Get kubernetes admin password
+      command: "kubectl config view -o json"
+      register: kube_config
+   
+    - set_fact:
+        admin_password: "{{ kube_config.stdout | from_json | json_query('users[].user.password') | first }}"
+        api_endpoint: "{{ kube_config.stdout | from_json | json_query('clusters[].cluster.server') | first }}"
+
+# Ingress controller configuration
+#    - include: nginx-ingress.yml
+
+    - name: Create Staging and Production namespaces
+      kubernetes:
+        api_endpoint: "{{ api_endpoint.split('https://')[1] }}"
+        url_username: admin
+        url_password: "{{ admin_password }}" 
+        inline_data:
+          kind: Namespace
+          apiVersion: v1
+          metadata:
+            name: '{{ item }}'
+        state: present
+      with_items: 
+        - staging
+        - production
+
+# Installing guest-book application in staging and production namespaces
+    - name: Deploy guestbook application in staging and production
+      include: guest-book.yml namespace={{item}}
+      with_items:
+        - staging
+        - production
+#
