@@ -29,22 +29,23 @@
       when: namespace == "production"
 
 
-## These tasks must be ran by aprivilege user
-#    - name: Add hostnames in hosts file
-#      lineinfile: 
-#        dest: /etc/hosts
-#        line: "{{ staging_ip }}  staging-guestbook.mstakx.io"
-#        state: present
-#      when: namespace == "staging"
-#      become: True
-#
-#    - name: Add hostnames in hosts file
-#      lineinfile: 
-#        dest: /etc/hosts
-#        line: "{{ production_ip }}  staging-guestbook.mstakx.io"
-#        state: present
-#      when: namespace == "production"
-#      become: True
+## This task must be ran by a privileged user
+    - name: Add hostnames in hosts file
+      lineinfile: 
+        dest: /etc/hosts
+        line: "{{ staging_ip }}  staging-guestbook.mstakx.io"
+        state: present
+      when: namespace == "staging"
+      become: True
+
+    - name: Add hostnames in hosts file
+      lineinfile: 
+        dest: /etc/hosts
+        line: "{{ production_ip }}  guestbook.mstakx.io"
+        state: present
+      when: namespace == "production"
+      become: True
+##
 
     - name: Create horizontal pod autoscaler in "{{ namespace }}"
       command: "kubectl -n {{ namespace }} autoscale deployment frontend --cpu-percent=50 --min=1 --max=10"
