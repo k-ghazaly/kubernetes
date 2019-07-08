@@ -20,17 +20,20 @@ Before you start:
 1- Make sure that gcloud is set to use the Google Cloud Platform project you want
    $ gcloud config set project <project-id>
 
-2- Make sure you have credentials for GCloud by running gcloud auth login.
+2- Make sure you have credentials for GCloud by running 
+   $ gcloud auth login
 
 
 Cloning Steps:
 
 1- Clone the git repo k-ghazaly/kubernetes
+
    $ git clone https://github.com/k-ghazaly/kubernetes.git
 
 2- Running Ansible playbook kubernetes.yml
-   This playbook should run through all the test requirements, and it is designed to be idiomatic.
-   $ ansible kubernetes.yml
+   This playbook should run through all the test requirements, and it is designed to be idempotent.
+
+   $ ansible-playbook kubernetes.yml
 
 3- For testing the horizontal pod autoscaler deployed in staging namespace, run the load-test bash script provided in new terminal, and in another terminal watch how the hpa functions
 
@@ -44,7 +47,7 @@ Cloning Steps:
 
 Notes:
 
-1- As per the minimum recommendations for kubernetes cluster resource, I've chosen the below instances types
+1- As per the minimum recommendations for kubernetes cluster resource, I've chosen the below instances types:
  - Master : n1-standard-1
  - Workers: n1-standard-2
 
