@@ -1,11 +1,11 @@
-# kubernetes - mStakx-test (Level 1)
+## kubernetes - mStakx-test (Level 1)
 
-* Introduction:
+# Introduction:
 
 This repo contains code and scripts to demonstrate kubernetes cluster installation on GCE not using GKE, followed by multiple tasks as required in mStakx kubernetes test (level1). 
 
 
-* Environment description:
+# Environment description:
 
 - Localhost CentOS 7.6
 - Ansible v 2.8.1
@@ -15,7 +15,7 @@ This repo contains code and scripts to demonstrate kubernetes cluster installati
 - kubectl installed
 
 
-* Before you start:
+# Before you start:
 
 1- Make sure that gcloud is set to use the Google Cloud Platform project you want
 
@@ -26,7 +26,7 @@ This repo contains code and scripts to demonstrate kubernetes cluster installati
    `$ gcloud auth login`
 
 
-* Cloning Steps:
+# Cloning Steps:
 
 1- Clone the git repo k-ghazaly/kubernetes
 
@@ -47,7 +47,7 @@ This repo contains code and scripts to demonstrate kubernetes cluster installati
   To stop the load, from terminal1 terminate the load generation by typing <Ctrl> + C.
 
 
-* Notes:
+# Notes:
 
 1- As per the minimum recommendations for kubernetes cluster resource, I've chosen the below instances types:
  - Master : n1-standard-1
@@ -62,13 +62,9 @@ This repo contains code and scripts to demonstrate kubernetes cluster installati
    $ kubernetes/cluster/kube-down.sh
 
 
-* References:
+# References:
 
 - Kubernetes deployment: https://kubernetes.io/docs/setup/production-environment/turnkey/gce/
 - Ingress Controller:    https://github.com/nginxinc/kubernetes-ingress/blob/master/docs/installation.md
 - Guest Book App:        https://kubernetes.io/docs/tutorials/stateless-application/guestbook/
 
-
-* Author:
-
-Kareem Ghazaly
