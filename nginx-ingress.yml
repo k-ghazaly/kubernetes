@@ -47,7 +47,7 @@
         file_reference: kubernetes-ingress/deployments/service/loadbalancer.yaml
         state: present
     
-    - name: Wait 30 seconds for LB External IP creation
+    - name: Wait 60 seconds for LB External IP creation
       pause:
         minutes: 1
         

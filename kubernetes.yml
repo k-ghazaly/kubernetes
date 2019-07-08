@@ -2,7 +2,7 @@
   hosts: localhost
   gather_facts: no
   tasks:
-#    - include: cluster-up.yml
+    - include: cluster-up.yml
 
     - name: Get kubernetes admin password
       command: "kubectl config view -o json"
@@ -13,7 +13,7 @@
         api_endpoint: "{{ kube_config.stdout | from_json | json_query('clusters[].cluster.server') | first }}"
 
 # Ingress controller configuration
-#    - include: nginx-ingress.yml
+    - include: nginx-ingress.yml
 
     - name: Create Staging and Production namespaces
       kubernetes:

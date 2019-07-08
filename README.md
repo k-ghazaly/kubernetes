@@ -14,12 +14,14 @@ Environment description:
 - gcloud installed
 - kubectl installed
 
+
 Before you start:
 
 1- Make sure that gcloud is set to use the Google Cloud Platform project you want
    $ gcloud config set project <project-id>
 
 2- Make sure you have credentials for GCloud by running gcloud auth login.
+
 
 Cloning Steps:
 
@@ -43,13 +45,24 @@ Cloning Steps:
 Notes:
 
 1- As per the minimum recommendations for kubernetes cluster resource, I've chosen the below instances types
- - master: n1-standard-1
+ - Master : n1-standard-1
  - Workers: n1-standard-2
 
-2- For cluster monitoring I would deploy Prometheus and Grafana, as it has been proved it's the most powerfull and stable monitoring tool for Kubernetes and OpenShift
+2- For cluster monitoring I would deploy Prometheus, configure alerts with Alertmanager and dashboards with Grafana. As during my technical work experience it has been proved that this stack is the most powerfull and stable monitoring tool for Kubernetes and OpenShift. 
+   In addtition to:
+   - The model is based on key-value pairs, similar to how Kubernetes itself organizes infrastructure metadata using labels. It allows for flexible and accurate time series data, powering its Prometheus query language.
+   - Exposing prometheus metrics is a pretty straightforward task. Metrics are human readable, are in a self-explanatory format, and are published using a standard HTTP transport. 
 
 3- To destroy the kubernetes cluster and all assotiate resources 
    $ kubernetes/cluster/kube-down.sh
+
+
+References:
+
+- Kubernetes deployment: https://kubernetes.io/docs/setup/production-environment/turnkey/gce/
+- Ingress Controller:    https://github.com/nginxinc/kubernetes-ingress/blob/master/docs/installation.md
+- Guest Book App:        https://kubernetes.io/docs/tutorials/stateless-application/guestbook/
+
 
 Author:
 
