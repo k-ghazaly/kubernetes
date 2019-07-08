@@ -1,11 +1,11 @@
 # kubernetes - mStakx-test (Level 1)
 
-Introduction:
+* Introduction:
 
 This repo contains code and scripts to demonstrate kubernetes cluster installation on GCE not using GKE, followed by multiple tasks as required in mStakx kubernetes test (level1). 
 
 
-Environment description:
+* Environment description:
 
 - Localhost CentOS 7.6
 - Ansible v 2.8.1
@@ -15,37 +15,39 @@ Environment description:
 - kubectl installed
 
 
-Before you start:
+* Before you start:
 
 1- Make sure that gcloud is set to use the Google Cloud Platform project you want
-   $ gcloud config set project <project-id>
+
+   `$ gcloud config set project <project-id>`
 
 2- Make sure you have credentials for GCloud by running 
-   $ gcloud auth login
+
+   `$ gcloud auth login`
 
 
-Cloning Steps:
+* Cloning Steps:
 
 1- Clone the git repo k-ghazaly/kubernetes
 
-   $ git clone https://github.com/k-ghazaly/kubernetes.git
+   `$ git clone https://github.com/k-ghazaly/kubernetes.git`
 
 2- Running Ansible playbook kubernetes.yml
    This playbook should run through all the test requirements, and it is designed to be idempotent.
 
-   $ ansible-playbook kubernetes.yml
+   `$ ansible-playbook kubernetes.yml`
 
 3- For testing the horizontal pod autoscaler deployed in staging namespace, run the load-test bash script provided in new terminal, and in another terminal watch how the hpa functions
 
- - Terminal1: $ ./load-test.sh
- - Terminal2: $ watch kubectl -n staging get hpa
+ - Terminal1: `$ ./load-test.sh`
+ - Terminal2: `$ watch kubectl -n staging get hpa`
 
   Within a minute or so, we should see the higher CPU load by executing.
 
   To stop the load, from terminal1 terminate the load generation by typing <Ctrl> + C.
 
 
-Notes:
+* Notes:
 
 1- As per the minimum recommendations for kubernetes cluster resource, I've chosen the below instances types:
  - Master : n1-standard-1
@@ -60,13 +62,13 @@ Notes:
    $ kubernetes/cluster/kube-down.sh
 
 
-References:
+* References:
 
 - Kubernetes deployment: https://kubernetes.io/docs/setup/production-environment/turnkey/gce/
 - Ingress Controller:    https://github.com/nginxinc/kubernetes-ingress/blob/master/docs/installation.md
 - Guest Book App:        https://kubernetes.io/docs/tutorials/stateless-application/guestbook/
 
 
-Author:
+* Author:
 
 Kareem Ghazaly
